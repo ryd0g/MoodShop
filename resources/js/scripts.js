@@ -47,6 +47,19 @@ button.id = data[i].name
 
 const cart = []
 
+// list click
+itemList.onclick = function(e) {
+    if (e.target && e.target.classList.contains('remove')) {
+        const name = e.target.dataset.name
+        removeItem(name)
+    } else if (e.target && e.target.classList.contains('remove-one')) {
+        const name = e.target.dataset.name
+        removeItem(name, 1)
+    } else if (e.target && e.target.classList.contains('add-one')) {
+        const name = e.target.dataset.name
+        addItem(name)
+    }
+}
 
 function addItem(name, price) {
     for (let i = 0; i < cart.length; i += 1) {
@@ -69,7 +82,11 @@ function showItems() {
         console.log(`- ${cart[i].name} $${cart[i].price} x ${cart[i].qty}`)
         const { name, price, qty } = cart[i]
 
-        itemStr += `<li>${name} $${price} x ${qty} = ${qty * price} </li>`
+        itemStr += `<li>${name} $${price} x ${qty} = ${qty * price} 
+        <button class="remove" data-name="${name}">Remove</button>
+        <button class="remove-one" data-name="${name}"> - </button> 
+        <button class="add-one" data-name="${name}"> + </button> 
+        </li>`
     }
     itemList.innerHTML = itemStr
     console.log(`Total in cart: $${getTotal()}`)
@@ -107,6 +124,7 @@ function removeItem(name, qty = 0) {
             if (cart[i].qty < 1 || qty === 0) {
                 cart.splice(i, 1)
             }
+            showItems()
             return
         }
     }
