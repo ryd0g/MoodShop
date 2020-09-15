@@ -42,16 +42,48 @@ button.id = data[i].name
   // put new div inside items container
   itemsContainer.appendChild(newDiv)
 
-const cart = [ ]
+const cart = []
+
 
 function addItem(name, price) {
-    const item = { name: name, price: price, qty: 1 }
-    cart.push(name)
+    for (let i = 0; i < cart.length; i += 1) {
+        if (cart[i].name === name) {
+            cart[i].qty += 1
+            return
+        }
+    }
+    const item = { name, price, qty: 1 }
+    cart.push(item)
 
 }
 
+// show items
 function showItems() {
-    console.log(`You have ${cart.length} items in your cart`)
+    
+    console.log(`You have ${getQty()} items in your cart`)
+
+    for (let i = 0; i < cart.length; i += 1) {
+        console.log(`- ${cart[i].name} $${cart[i].price} x ${cart[i].qty}`)
+    }
+    
+    console.log(`Total in cart: $${getTotal()}`)
+}
+
+// get qty
+function getQty() {
+    let qty = 0
+    for (let i = 0; i < cart.length; i += 1) {
+        qty += cart[i].qty
+    }
+    return qty
+}
+// get total
+function getTotal() {
+    let total = 0
+    for (let i = 0; i < cart.length; i += 1) {
+        total += cart[i].price * cart[i].qty
+    }
+    return total.toFixed(2)
 }
 
 showItems()
