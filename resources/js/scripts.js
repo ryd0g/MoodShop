@@ -65,6 +65,7 @@ function addItem(name, price) {
     for (let i = 0; i < cart.length; i += 1) {
         if (cart[i].name === name) {
             cart[i].qty += 1
+            showItems()
             return
         }
     }
@@ -82,7 +83,7 @@ function showItems() {
         console.log(`- ${cart[i].name} $${cart[i].price} x ${cart[i].qty}`)
         const { name, price, qty } = cart[i]
 
-        itemStr += `<li>${name} $${price} x ${qty} = ${qty * price} 
+        itemStr += `<li>${name} $${price} x ${qty} = ${(cart[i].qty * cart[i].price).toFixed(2)}
         <button class="remove" data-name="${name}">Remove</button>
         <button class="remove-one" data-name="${name}"> - </button> 
         <button class="add-one" data-name="${name}"> + </button> 
@@ -120,7 +121,6 @@ function removeItem(name, qty = 0) {
             if (qty > 0) {
                 cart[i].qty -= qty
             }
-            cart[i].qty -= 1
             if (cart[i].qty < 1 || qty === 0) {
                 cart.splice(i, 1)
             }
